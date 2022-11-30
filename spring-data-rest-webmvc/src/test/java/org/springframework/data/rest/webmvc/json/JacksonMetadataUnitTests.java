@@ -117,6 +117,8 @@ class JacksonMetadataUnitTests {
 	@SuppressWarnings("serial")
 	static class SomeBeanSerializer extends StdSerializer<SomeBean> {
 
+		private static final long serialVersionUID = 1;
+
 		public SomeBeanSerializer() {
 			super(SomeBean.class);
 		}

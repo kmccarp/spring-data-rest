@@ -43,7 +43,7 @@ class ProjectionProxyAotProcessor implements BeanRegistrationAotProcessor {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionProxyAotProcessor.class);
 
-	private static Class<?>[] ADDITIONAL_INTERFACES = new Class<?>[] { //
+	private static Class<?>[] additionalInterfaces = new Class<?>[] { //
 			TargetAware.class, //
 			SpringProxy.class, //
 			DecoratingProxy.class
@@ -85,7 +85,7 @@ class ProjectionProxyAotProcessor implements BeanRegistrationAotProcessor {
 
 						LOGGER.debug("Registering proxy config for projection interface {}.", it.getName());
 
-						proxies.registerJdkProxy(ObjectUtils.addObjectToArray(ADDITIONAL_INTERFACES, it, 0));
+						proxies.registerJdkProxy(ObjectUtils.addObjectToArray(additionalInterfaces, it, 0));
 					});
 
 		};

@@ -151,7 +151,9 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 	 * @author Oliver Gierke
 	 */
 	@SuppressWarnings("serial")
-	private static class PersistentEntityResourceSerializer extends StdSerializer<PersistentEntityResource> {
+	private static final class PersistentEntityResourceSerializer extends StdSerializer<PersistentEntityResource> {
+
+		private static final long serialVersionUID = 1;
 
 		private final LinkCollector collector;
 
@@ -253,7 +255,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 
 			return entities.getPersistentEntity(beanDesc.getBeanClass()).map(entity -> {
 
-				List<BeanPropertyWriter> result = new ArrayList<BeanPropertyWriter>();
+				List<BeanPropertyWriter> result = new ArrayList<>();
 
 				for (BeanPropertyWriter writer : beanProperties) {
 
@@ -352,7 +354,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 			if (value instanceof Collection) {
 
 				Collection<?> source = (Collection<?>) value;
-				List<Object> resources = new ArrayList<Object>();
+				List<Object> resources = new ArrayList<>();
 
 				for (Object element : source) {
 					resources.add(toModel(element, provider));
@@ -603,7 +605,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 				TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(type);
 
 				return converter.convert(uri, URI_DESCRIPTOR, typeDescriptor);
-			} catch (IllegalArgumentException o_O) {
+			} catch (IllegalArgumentException oO) {
 				throw ctxt.weirdStringException(source, URI.class, String.format(UNEXPECTED_VALUE, type));
 			}
 		}
@@ -624,7 +626,9 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 	}
 
 	@SuppressWarnings("serial")
-	static class ProjectionSerializer extends StdSerializer<TargetAware> {
+	static final class ProjectionSerializer extends StdSerializer<TargetAware> {
+
+		private static final long serialVersionUID = 1;
 
 		private final LinkCollector collector;
 		private final Associations associations;
@@ -731,6 +735,8 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 	@SuppressWarnings("serial")
 	private static class ProjectionResourceContentSerializer extends StdSerializer<ProjectionResourceContent> {
 
+		private static final long serialVersionUID = 1;
+
 		private final boolean unwrapping;
 
 		/**
@@ -803,7 +809,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 		}
 	}
 
-	private static class RepositoryInvokingDeserializer extends StdScalarDeserializer<Object> {
+	private static final class RepositoryInvokingDeserializer extends StdScalarDeserializer<Object> {
 
 		private static final long serialVersionUID = -3033458643050330913L;
 		private final RepositoryInvoker invoker;

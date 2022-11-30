@@ -47,8 +47,8 @@ class JsonLateObjectEvaluator implements LateObjectEvaluator {
 
 		try {
 			return mapper.readValue(node.traverse(mapper.getFactory().getCodec()), type);
-		} catch (Exception o_O) {
-			throw new PatchException(String.format("Could not read %s into %s", node, type), o_O);
+		} catch (Exception oO) {
+			throw new PatchException(String.format("Could not read %s into %s", node, type), oO);
 		}
 	}
 }

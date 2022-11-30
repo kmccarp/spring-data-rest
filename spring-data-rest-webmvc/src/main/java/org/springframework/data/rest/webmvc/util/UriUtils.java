@@ -31,7 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 public abstract class UriUtils {
 
-	private static AnnotationMappingDiscoverer DISCOVERER = new AnnotationMappingDiscoverer(RequestMapping.class);
+	private static AnnotationMappingDiscoverer discoverer = new AnnotationMappingDiscoverer(RequestMapping.class);
 
 	private UriUtils() {}
 
@@ -48,7 +48,7 @@ public abstract class UriUtils {
 		Assert.hasText(variable, "Variable name must not be null or empty");
 		Assert.notNull(method, "Method must not be null");
 
-		String mapping = DISCOVERER.getMapping(method);
+		String mapping = discoverer.getMapping(method);
 
 		return new org.springframework.web.util.UriTemplate(mapping) //
 				.match(lookupPath) //
@@ -65,7 +65,7 @@ public abstract class UriUtils {
 
 		Assert.notNull(method, "Method must not be null");
 
-		String mapping = DISCOVERER.getMapping(method.getDeclaringClass(), method);
+		String mapping = discoverer.getMapping(method.getDeclaringClass(), method);
 
 		return UriComponentsBuilder.fromPath(mapping).build().getPathSegments();
 	}

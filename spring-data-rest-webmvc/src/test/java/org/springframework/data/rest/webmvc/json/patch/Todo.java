@@ -37,7 +37,7 @@ class Todo {
 	private String description;
 	private boolean complete;
 	private TodoType type = new TodoType();
-	private List<String> items = new ArrayList<String>();
+	private List<String> items = new ArrayList<>();
 	private List<String> uninitialized;
 	private BigInteger amount;
 

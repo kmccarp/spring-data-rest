@@ -117,7 +117,7 @@ class MappingResourceMetadata extends TypeBasedCollectionResourceMapping impleme
 			Assert.notNull(resourceMappings, "ResourceMappings must not be null");
 
 			this.resourceMappings = resourceMappings;
-			this.propertyMappings = new HashMap<PersistentProperty<?>, PropertyAwareResourceMapping>();
+			this.propertyMappings = new HashMap<>();
 		}
 
 		@Override

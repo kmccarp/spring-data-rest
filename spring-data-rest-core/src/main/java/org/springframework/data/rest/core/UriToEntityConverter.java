@@ -63,7 +63,7 @@ public class UriToEntityConverter implements ConditionalGenericConverter {
 		Assert.notNull(invokerFactory, "RepositoryInvokerFactory must not be null");
 		Assert.notNull(repositories, "Repositories must not be null");
 
-		Set<ConvertiblePair> convertiblePairs = new HashSet<ConvertiblePair>();
+		Set<ConvertiblePair> convertiblePairs = new HashSet<>();
 
 		for (TypeInformation<?> domainType : entities.getManagedTypes()) {
 

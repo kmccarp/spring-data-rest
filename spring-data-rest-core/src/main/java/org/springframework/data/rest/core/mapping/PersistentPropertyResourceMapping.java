@@ -68,7 +68,7 @@ class PersistentPropertyResourceMapping implements PropertyAwareResourceMapping 
 
 		return LinkRelation.of(annotation.filter(it -> StringUtils.hasText(it.rel())) //
 				.map(it -> it.rel()) //
-				.orElseGet(() -> property.getName()));
+				.orElseGet(property::getName));
 	}
 
 	@Override

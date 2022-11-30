@@ -51,7 +51,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Mark Paluch
  * @author Greg Turnquist
  */
-class SpelPath {
+final class SpelPath {
 
 	private static final SpelExpressionParser SPEL_EXPRESSION_PARSER = new SpelExpressionParser();
 	private static final String APPEND_CHARACTER = "-";
@@ -113,7 +113,7 @@ class SpelPath {
 		return path.hashCode();
 	}
 
-	static class UntypedSpelPath extends SpelPath {
+	static final class UntypedSpelPath extends SpelPath {
 
 		private static final Map<CacheKey, TypedSpelPath> READ_PATHS = new ConcurrentReferenceHashMap<>(256);
 		private static final Map<CacheKey, TypedSpelPath> WRITE_PATHS = new ConcurrentReferenceHashMap<>(256);
@@ -229,7 +229,7 @@ class SpelPath {
 	 *
 	 * @author Oliver Gierke
 	 */
-	static class TypedSpelPath extends SpelPath implements ReadingOperations, WritingOperations {
+	static final class TypedSpelPath extends SpelPath implements ReadingOperations, WritingOperations {
 
 		private static final String INVALID_PATH_REFERENCE = "Invalid path reference %s on type %s";
 		private static final String INVALID_COLLECTION_INDEX = "Invalid collection index %s for collection of size %s; Use '…/-' or the collection's actual size as index to append to it";
@@ -259,8 +259,8 @@ class SpelPath {
 
 			try {
 				return (T) expression.getValue(CONTEXT, target);
-			} catch (ExpressionException o_O) {
-				throw new PatchException("Unable to get value from target", o_O);
+			} catch (ExpressionException oO) {
+				throw new PatchException("Unable to get value from target", oO);
 			}
 		}
 
@@ -475,7 +475,7 @@ class SpelPath {
 			String segmentSource = path.replaceAll("^/\\d+", "");
 
 			Stream<String> segments = Arrays.stream(segmentSource.split("/"))//
-					.filter(it -> !it.equals("-")) // no "last element"s
+					.filter(it -> !"-".equals(it)) // no "last element"s
 					.filter(it -> !it.isEmpty());
 
 			try {

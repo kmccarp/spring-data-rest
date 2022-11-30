@@ -32,7 +32,8 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 class JsonPointerMapping {
 
-	private final BiFunction<String, Class<?>, Optional<String>> reader, writer;
+	private final BiFunction<String, Class<?>, Optional<String>> reader;
+	private final BiFunction<String, Class<?>, Optional<String>> writer;
 
 	public JsonPointerMapping(BindContext context) {
 
@@ -91,7 +92,7 @@ class JsonPointerMapping {
 				continue;
 			}
 
-			if (segment.equals("-") || segment.matches("\\d+")) {
+			if ("-".equals(segment) || segment.matches("\\d+")) {
 				result.append("/").append(segment);
 				currentType = currentType.getActualType();
 				continue;
@@ -106,7 +107,7 @@ class JsonPointerMapping {
 
 			try {
 				base = base == null ? PropertyPath.from(property, type) : base.nested(segment);
-			} catch (PropertyReferenceException o_O) {
+			} catch (PropertyReferenceException oO) {
 				throw reject(segment, rejectType, pointer, qualifier);
 			}
 

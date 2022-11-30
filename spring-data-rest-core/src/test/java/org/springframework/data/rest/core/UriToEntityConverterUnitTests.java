@@ -64,7 +64,7 @@ class UriToEntityConverterUnitTests {
 	void setUp() {
 
 		this.context = new KeyValueMappingContext<>();
-		this.context.setInitialEntitySet(new HashSet<Class<?>>(Arrays.asList(Entity.class, NonEntity.class)));
+		this.context.setInitialEntitySet(new HashSet<>(Arrays.asList(Entity.class, NonEntity.class)));
 		this.context.afterPropertiesSet();
 
 		this.converter = new UriToEntityConverter(new PersistentEntities(Arrays.asList(this.context)), invokerFactory,

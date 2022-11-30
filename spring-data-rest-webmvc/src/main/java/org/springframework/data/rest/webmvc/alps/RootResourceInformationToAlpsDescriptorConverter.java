@@ -15,7 +15,8 @@
  */
 package org.springframework.data.rest.webmvc.alps;
 
-import static org.springframework.hateoas.mediatype.alps.Alps.*;
+import static org.springframework.hateoas.mediatype.alps.Alps.alps;
+import static org.springframework.hateoas.mediatype.alps.Alps.descriptor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,8 +30,6 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mapping.SimpleAssociationHandler;
-import org.springframework.data.mapping.SimplePropertyHandler;
 import org.springframework.data.mapping.context.PersistentEntities;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.support.Repositories;
@@ -115,7 +114,7 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 	public Alps convert(RootResourceInformation resourceInformation) {
 
 		Class<?> type = resourceInformation.getDomainType();
-		List<Descriptor> descriptors = new ArrayList<Descriptor>();
+		List<Descriptor> descriptors = new ArrayList<>();
 
 		Descriptor representationDescriptor = buildRepresentationDescriptor(type);
 
@@ -161,7 +160,7 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 
 		ResourceMetadata metadata = associations.getMetadataFor(type);
 
-		List<Descriptor> nestedDescriptors = new ArrayList<Descriptor>();
+		List<Descriptor> nestedDescriptors = new ArrayList<>();
 		nestedDescriptors.addAll(getPaginationDescriptors(type, method));
 		nestedDescriptors.addAll(getProjectionDescriptor(type, method));
 
@@ -187,7 +186,7 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 		String projectionParameterName = projectionConfiguration.getParameterName();
 
 		Map<String, Class<?>> projections = projectionConfiguration.getProjectionsFor(metadata.getDomainType());
-		List<Descriptor> projectionDescriptors = new ArrayList<Descriptor>(projections.size());
+		List<Descriptor> projectionDescriptors = new ArrayList<>(projections.size());
 
 		for (Entry<String, Class<?>> projection : projections.entrySet()) {
 
@@ -214,7 +213,7 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 
 	private List<Descriptor> createJacksonDescriptor(String name, Class<?> type) {
 
-		List<Descriptor> descriptors = new ArrayList<Descriptor>();
+		List<Descriptor> descriptors = new ArrayList<>();
 
 		for (BeanPropertyDefinition definition : new JacksonMetadata(mapper, type)) {
 
@@ -262,7 +261,7 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 
 		return projectionConfiguration.hasProjectionFor(type)
 				? Arrays.asList(buildProjectionDescriptor(associations.getMetadataFor(type)))
-				: Collections.<Descriptor> emptyList();
+				: Collections. emptyList();
 	}
 
 	/**
@@ -281,7 +280,7 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 
 		Link linkToCollectionResource = entityLinks.linkToCollectionResource(type);
 		List<TemplateVariable> variables = linkToCollectionResource.getVariables();
-		List<Descriptor> descriptors = new ArrayList<Descriptor>(variables.size());
+		List<Descriptor> descriptors = new ArrayList<>(variables.size());
 
 		ProjectionDefinitionConfiguration projectionConfiguration = configuration.getProjectionConfiguration();
 
@@ -309,63 +308,55 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 	private List<Descriptor> buildPropertyDescriptors(final Class<?> type, LinkRelation baseRel) {
 
 		final PersistentEntity<?, ?> entity = persistentEntities.getRequiredPersistentEntity(type);
-		final List<Descriptor> propertyDescriptors = new ArrayList<Descriptor>();
+		final List<Descriptor> propertyDescriptors = new ArrayList<>();
 		final JacksonMetadata jackson = new JacksonMetadata(mapper, type);
 		final ResourceMetadata metadata = associations.getMetadataFor(entity.getType());
 
-		entity.doWithProperties(new SimplePropertyHandler() {
+		entity.doWithProperties(property -> {
 
-			@Override
-			public void doWithPersistentProperty(PersistentProperty<?> property) {
+			BeanPropertyDefinition propertyDefinition = jackson.getDefinitionFor(property);
+			ResourceMapping propertyMapping = metadata.getMappingFor(property);
 
-				BeanPropertyDefinition propertyDefinition = jackson.getDefinitionFor(property);
-				ResourceMapping propertyMapping = metadata.getMappingFor(property);
+			if (propertyDefinition != null) {
 
-				if (propertyDefinition != null) {
-
-					if (property.isIdProperty() && !configuration.isIdExposedFor(property.getOwner().getType())) {
-						return;
-					}
-
-					propertyDescriptors.add(//
-							descriptor(). //
-					type(Type.SEMANTIC).//
-					name(propertyDefinition.getName()).//
-					doc(getDocFor(propertyMapping.getDescription(), property)).//
-					build());
-				}
-			}
-		});
-
-		entity.doWithAssociations(new SimpleAssociationHandler() {
-
-			@Override
-			public void doWithAssociation(Association<? extends PersistentProperty<?>> association) {
-
-				PersistentProperty<?> property = association.getInverse();
-
-				if (!jackson.isExported(property) || !associations.isLinkableAssociation(property)) {
+				if (property.isIdProperty() && !configuration.isIdExposedFor(property.getOwner().getType())) {
 					return;
 				}
 
-				ResourceMapping mapping = metadata.getMappingFor(property);
-
-				DescriptorBuilder builder = descriptor().//
-				name(mapping.getRel().value()).doc(getDocFor(mapping.getDescription()));
-
-				ResourceMetadata targetTypeMetadata = associations.getMetadataFor(property.getActualType());
-
-				String href = ProfileController.getPath(configuration, targetTypeMetadata) + "#"
-						+ getRepresentationDescriptorId(targetTypeMetadata);
-
-				Link link = Link.of(href).withSelfRel();
-
-				builder.//
-				type(Type.SAFE).//
-				rt(link.getHref());
-
-				propertyDescriptors.add(builder.build());
+				propertyDescriptors.add(//
+						descriptor(). //
+								type(Type.SEMANTIC).//
+								name(propertyDefinition.getName()).//
+								doc(getDocFor(propertyMapping.getDescription(), property)).//
+								build());
 			}
+		});
+
+		entity.doWithAssociations(association -> {
+
+			PersistentProperty<?> property = association.getInverse();
+
+			if (!jackson.isExported(property) || !associations.isLinkableAssociation(property)) {
+				return;
+			}
+
+			ResourceMapping mapping = metadata.getMappingFor(property);
+
+			DescriptorBuilder builder = descriptor().//
+					name(mapping.getRel().value()).doc(getDocFor(mapping.getDescription()));
+
+			ResourceMetadata targetTypeMetadata = associations.getMetadataFor(property.getActualType());
+
+			String href = ProfileController.getPath(configuration, targetTypeMetadata) + "#"
+					+ getRepresentationDescriptorId(targetTypeMetadata);
+
+			Link link = Link.of(href).withSelfRel();
+
+			builder.//
+					type(Type.SAFE).//
+					rt(link.getHref());
+
+			propertyDescriptors.add(builder.build());
 		});
 
 		return propertyDescriptors;
@@ -374,11 +365,11 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 	private Collection<Descriptor> buildSearchResourceDescriptors(PersistentEntity<?, ?> entity) {
 
 		ResourceMetadata metadata = associations.getMetadataFor(entity.getType());
-		List<Descriptor> descriptors = new ArrayList<Descriptor>();
+		List<Descriptor> descriptors = new ArrayList<>();
 
 		for (MethodResourceMapping methodMapping : metadata.getSearchResourceMappings()) {
 
-			List<Descriptor> parameterDescriptors = new ArrayList<Descriptor>();
+			List<Descriptor> parameterDescriptors = new ArrayList<>();
 
 			for (ParameterMetadata parameterMetadata : methodMapping.getParametersMetadata()) {
 
@@ -432,7 +423,7 @@ public class RootResourceInformationToAlpsDescriptorConverter {
 
 		try {
 			return resolver.resolve(description);
-		} catch (NoSuchMessageException o_O) {
+		} catch (NoSuchMessageException oO) {
 			return configuration.getMetadataConfiguration().omitUnresolvableDescriptionKeys() //
 					? null //
 					: description.getMessage();

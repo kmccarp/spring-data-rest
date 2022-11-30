@@ -84,7 +84,7 @@ public class HttpHeadersPreparer {
 		HttpHeaders headers = ETag.from(entity, value).addTo(new HttpHeaders());
 
 		// Add Last-Modified
-		getLastModifiedInMilliseconds(value).ifPresent(it -> headers.setLastModified(it));
+		getLastModifiedInMilliseconds(value).ifPresent(headers::setLastModified);
 
 		return headers;
 	}

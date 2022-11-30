@@ -175,7 +175,7 @@ public class RepositoryRestHandlerMapping extends BasePathAwareHandlerMapping {
 	protected void extendInterceptors(List<Object> interceptors) {
 
 		jpaHelper.map(JpaHelper::getInterceptors) //
-				.orElseGet(() -> Collections.emptyList()) //
+				.orElseGet(Collections::emptyList) //
 				.forEach(interceptors::add);
 	}
 
@@ -186,7 +186,7 @@ public class RepositoryRestHandlerMapping extends BasePathAwareHandlerMapping {
 			return condition;
 		}
 
-		Set<String> mediaTypes = new LinkedHashSet<String>();
+		Set<String> mediaTypes = new LinkedHashSet<>();
 		mediaTypes.add(configuration.getDefaultMediaType().toString());
 		mediaTypes.add(MediaType.APPLICATION_JSON_VALUE);
 		mediaTypes.add(MediaTypes.HAL_FORMS_JSON_VALUE);
@@ -310,7 +310,7 @@ public class RepositoryRestHandlerMapping extends BasePathAwareHandlerMapping {
 			return getResourceMetadata(getRepositoryBasePath(lookupPath))//
 					.flatMap(it -> repositories.flatMap(foo -> foo.getRepositoryInformationFor(it.getDomainType())))//
 					.map(it -> it.getRepositoryInterface())//
-					.map(it -> createConfiguration(it));
+					.map(this::createConfiguration);
 		}
 
 		private Optional<ResourceMetadata> getResourceMetadata(String basePath) {

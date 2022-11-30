@@ -41,7 +41,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  */
 class ArgumentResolverPagingAndSortingTemplateVariables implements PagingAndSortingTemplateVariables {
 
-	private static final Set<Class<?>> SUPPORTED_TYPES = Collections.unmodifiableSet(new HashSet<Class<?>>(Arrays
+	private static final Set<Class<?>> SUPPORTED_TYPES = Collections.unmodifiableSet(new HashSet<>(Arrays
 			.<Class<?>> asList(Pageable.class, Sort.class)));
 
 	private final HateoasPageableHandlerMethodArgumentResolver pagingResolver;

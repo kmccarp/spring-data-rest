@@ -59,9 +59,9 @@ public class RepositoryRestConfiguration {
 	private String sortParamName = "sort";
 	private MediaType defaultMediaType = MediaTypes.HAL_JSON;
 	private boolean useHalAsDefaultJsonMediaType = true;
-	private Boolean returnBodyOnCreate = null;
-	private Boolean returnBodyOnUpdate = null;
-	private List<Class<?>> exposeIdsFor = new ArrayList<Class<?>>();
+	private Boolean returnBodyOnCreate;
+	private Boolean returnBodyOnUpdate;
+	private List<Class<?>> exposeIdsFor = new ArrayList<>();
 	private ResourceMappingConfiguration domainMappings = new ResourceMappingConfiguration();
 	private ResourceMappingConfiguration repoMappings = new ResourceMappingConfiguration();
 	private RepositoryDetectionStrategy repositoryDetectionStrategy = RepositoryDetectionStrategies.DEFAULT;
@@ -75,7 +75,7 @@ public class RepositoryRestConfiguration {
 	private final EnumTranslationConfiguration enumTranslationConfiguration;
 
 	private LinkRelationProvider linkRelationProvider;
-	private boolean enableEnumTranslation = false;
+	private boolean enableEnumTranslation;
 
 	/**
 	 * Creates a new {@link RepositoryRestConfiguration} with the given {@link ProjectionDefinitionConfiguration}.

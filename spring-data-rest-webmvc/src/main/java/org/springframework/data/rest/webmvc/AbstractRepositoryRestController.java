@@ -100,11 +100,11 @@ class AbstractRepositoryRestController {
 
 		if (!entities.iterator().hasNext()) {
 
-			List<Object> content = Arrays.<Object> asList(WRAPPERS.emptyCollectionOf(domainType));
+			List<Object> content = Arrays. asList(WRAPPERS.emptyCollectionOf(domainType));
 			return CollectionModel.of(content, getDefaultSelfLink());
 		}
 
-		List<EntityModel<Object>> resources = new ArrayList<EntityModel<Object>>();
+		List<EntityModel<Object>> resources = new ArrayList<>();
 
 		for (Object obj : entities) {
 			resources.add(obj == null ? null : assembler.toModel(obj));

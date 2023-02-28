@@ -216,7 +216,7 @@ class RepositorySearchController extends AbstractRepositoryRestController {
 			return resourceStatus.getStatusAndHeaders(headers, it, entity).toResponseEntity(//
 					() -> assembler.toFullResource(it));
 
-		}).orElseThrow(() -> new ResourceNotFoundException());
+		}).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**
@@ -247,7 +247,7 @@ class RepositorySearchController extends AbstractRepositoryRestController {
 				resourceInformation);
 		Object resource = entity.getBody();
 
-		List<Link> links = new ArrayList<Link>();
+		List<Link> links = new ArrayList<>();
 
 		if (resource instanceof CollectionModel && ((CollectionModel<?>) resource).getContent() != null) {
 
@@ -283,7 +283,7 @@ class RepositorySearchController extends AbstractRepositoryRestController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAllow(Collections.singleton(HttpMethod.GET));
 
-		return new ResponseEntity<Object>(headers, HttpStatus.OK);
+		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
 
 	/**
@@ -298,7 +298,7 @@ class RepositorySearchController extends AbstractRepositoryRestController {
 	public ResponseEntity<Object> headForSearch(RootResourceInformation information, @PathVariable String search) {
 
 		checkExecutability(information, search);
-		return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	/**
@@ -333,7 +333,7 @@ class RepositorySearchController extends AbstractRepositoryRestController {
 			@RequestParam MultiValueMap<String, Object> parameters, Method method, DefaultedPageable pageable, Sort sort,
 			PersistentEntityResourceAssembler assembler) {
 
-		MultiValueMap<String, Object> result = new LinkedMultiValueMap<String, Object>(parameters);
+		MultiValueMap<String, Object> result = new LinkedMultiValueMap<>(parameters);
 		MethodParameters methodParameters = new MethodParameters(method, new AnnotationAttribute(Param.class));
 		List<MethodParameter> parameterList = methodParameters.getParameters();
 		List<TypeInformation<?>> parameterTypeInformations = ClassTypeInformation.from(method.getDeclaringClass())
@@ -385,13 +385,13 @@ class RepositorySearchController extends AbstractRepositoryRestController {
 			return Collections.emptyList();
 		}
 
-		List<Object> result = new ArrayList<Object>(source.size());
+		List<Object> result = new ArrayList<>(source.size());
 
 		for (Object element : source) {
 
 			try {
 				result.add(new URI(element.toString()));
-			} catch (URISyntaxException o_O) {
+			} catch (URISyntaxException oO) {
 				result.add(element);
 			}
 		}

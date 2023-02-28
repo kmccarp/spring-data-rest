@@ -301,7 +301,7 @@ class RepositoryEntityController extends AbstractRepositoryRestController implem
 
 			return new ResponseEntity<Object>(headers, HttpStatus.NO_CONTENT);
 
-		}).orElseThrow(() -> new ResourceNotFoundException());
+		}).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**
@@ -324,7 +324,7 @@ class RepositoryEntityController extends AbstractRepositoryRestController implem
 			return resourceStatus.getStatusAndHeaders(headers, it, entity).toResponseEntity(//
 					() -> assembler.toFullResource(it));
 
-		}).orElseThrow(() -> new ResourceNotFoundException());
+		}).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**
@@ -425,7 +425,7 @@ class RepositoryEntityController extends AbstractRepositoryRestController implem
 					? ResponseEntity.ok(assembler.toFullResource(it))
 					: new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 
-		}).orElseThrow(() -> new ResourceNotFoundException());
+		}).orElseThrow(ResourceNotFoundException::new);
 	}
 
 	/**

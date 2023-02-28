@@ -90,7 +90,7 @@ public class PersistentEntityResourceHandlerMethodArgumentResolver implements Ha
 		this.resourceInformationResolver = resourceInformationResolver;
 		this.idResolver = idResolver;
 		this.lookups = lookups;
-		this.jsonPatchHandler = new JsonPatchHandler(mapper -> factory.getBindContextFor(mapper), reader);
+		this.jsonPatchHandler = new JsonPatchHandler(factory::getBindContextFor, reader);
 	}
 
 	@Override
@@ -184,7 +184,7 @@ public class PersistentEntityResourceHandlerMethodArgumentResolver implements Ha
 				ObjectMapper mapper = ((MappingJackson2HttpMessageConverter) converter).getObjectMapper();
 				return readPatch(request, mapper, it);
 
-			}).orElseThrow(() -> new ResourceNotFoundException());
+			}).orElseThrow(ResourceNotFoundException::new);
 
 			// JSON + PUT request
 		} else if (converter instanceof MappingJackson2HttpMessageConverter) {
@@ -205,13 +205,13 @@ public class PersistentEntityResourceHandlerMethodArgumentResolver implements Ha
 
 			return jsonPatchHandler.apply(request, existingObject, mapper);
 
-		} catch (Exception o_O) {
+		} catch (Exception oO) {
 
-			if (o_O instanceof HttpMessageNotReadableException) {
-				throw (HttpMessageNotReadableException) o_O;
+			if (oO instanceof HttpMessageNotReadableException) {
+				throw (HttpMessageNotReadableException) oO;
 			}
 
-			throw new HttpMessageNotReadableException(String.format(ERROR_MESSAGE, existingObject.getClass()), o_O,
+			throw new HttpMessageNotReadableException(String.format(ERROR_MESSAGE, existingObject.getClass()), oO,
 					request.getServerHttpRequest());
 		}
 	}

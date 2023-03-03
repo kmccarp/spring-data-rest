@@ -63,14 +63,14 @@ public class UriToEntityConverter implements ConditionalGenericConverter {
 		Assert.notNull(invokerFactory, "RepositoryInvokerFactory must not be null");
 		Assert.notNull(repositories, "Repositories must not be null");
 
-		Set<ConvertiblePair> convertiblePairs = new HashSet<ConvertiblePair>();
+		Set<ConvertiblePair> convertiblePairs = new HashSet<>();
 
 		for (TypeInformation<?> domainType : entities.getManagedTypes()) {
 
 			Class<?> rawType = domainType.getType();
 			Optional<PersistentEntity<?, ? extends PersistentProperty<?>>> entity = entities.getPersistentEntity(rawType);
 
-			if (entity.map(it -> it.hasIdProperty()).orElse(false)) {
+			if (entity.map(PersistentEntity::hasIdProperty).orElse(false)) {
 				convertiblePairs.add(new ConvertiblePair(URI.class, domainType.getType()));
 			}
 		}

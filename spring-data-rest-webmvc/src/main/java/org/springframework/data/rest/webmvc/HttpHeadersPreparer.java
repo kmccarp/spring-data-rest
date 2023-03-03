@@ -62,7 +62,7 @@ public class HttpHeadersPreparer {
 
 		return resource//
 				.map(it -> prepareHeaders(it.getPersistentEntity(), it.getTarget()))//
-				.orElseGet(() -> new HttpHeaders());
+				.orElseGet(HttpHeaders::new);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class HttpHeadersPreparer {
 		HttpHeaders headers = ETag.from(entity, value).addTo(new HttpHeaders());
 
 		// Add Last-Modified
-		getLastModifiedInMilliseconds(value).ifPresent(it -> headers.setLastModified(it));
+		getLastModifiedInMilliseconds(value).ifPresent(headers::setLastModified);
 
 		return headers;
 	}
@@ -123,9 +123,9 @@ public class HttpHeadersPreparer {
 	private Optional<Long> getLastModifiedInMilliseconds(Object object) {
 
 		return getAuditableBeanWrapper(object)//
-				.flatMap(it -> it.getLastModifiedDate())//
+				.flatMap(AuditableBeanWrapper::getLastModifiedDate)//
 				.map(it -> conversionService.convert(it, Date.class))//
 				.map(it -> conversionService.convert(it, Instant.class))//
-				.map(it -> it.toEpochMilli());
+				.map(Instant::toEpochMilli);
 	}
 }

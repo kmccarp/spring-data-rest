@@ -95,7 +95,7 @@ class DelegatingHandlerMapping implements MatchableHandlerMapping, Iterable<Hand
 
 		try {
 			return HandlerSelectionResult.from(request, delegates).match(pattern);
-		} catch (Exception o_O) {
+		} catch (Exception oO) {
 			return null;
 		}
 	}

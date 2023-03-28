@@ -191,17 +191,17 @@ public abstract class CommonWebTests extends AbstractWebIntegrationTests {
 	@Test // DATAREST-230
 	void exposesDescriptionAsAlpsDocuments() throws Exception {
 
-		MediaType ALPS_MEDIA_TYPE = MediaType.valueOf("application/alps+json");
+		MediaType alpsMediaType = MediaType.valueOf("application/alps+json");
 
 		MockHttpServletResponse response = client.request("/");
 		Link profileLink = client.assertHasLinkWithRel(LinkRelation.of("profile"), response);
 
 		mvc.perform(//
 				get(profileLink.expand().getHref()).//
-						accept(ALPS_MEDIA_TYPE))
+						accept(alpsMediaType))
 				.//
 				andExpect(status().isOk()).//
-				andExpect(content().contentTypeCompatibleWith(ALPS_MEDIA_TYPE));
+				andExpect(content().contentTypeCompatibleWith(alpsMediaType));
 	}
 
 	@Test // DATAREST-448

@@ -193,10 +193,10 @@ public abstract class AbstractWebIntegrationTests {
 
 			return Link.of(href, rel);
 
-		} catch (InvalidPathException o_O) {
+		} catch (InvalidPathException oO) {
 
 			if (expected) {
-				fail("Didn't find any content in the given response", o_O);
+				fail("Didn't find any content in the given response", oO);
 			}
 
 			return null;

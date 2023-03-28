@@ -40,7 +40,7 @@ public class Guest {
 	private Room room;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //
-	private List<Meal> meals = new ArrayList<Meal>();
+	private List<Meal> meals = new ArrayList<>();
 
 	public void addMeal(Meal meal) {
 		this.meals.add(meal);

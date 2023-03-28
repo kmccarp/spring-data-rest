@@ -74,7 +74,7 @@ class StringToAggregateReferenceConverter implements GenericConverter {
 
 		try {
 			return ClassUtils.forName("org.springframework.data.rest.core.AssociationAggregateReference", classLoader);
-		} catch (ClassNotFoundException o_O) {
+		} catch (ClassNotFoundException oO) {
 			return null;
 		}
 	}
@@ -133,7 +133,7 @@ class StringToAggregateReferenceConverter implements GenericConverter {
 	private static class ResolvingAssociationAggregateReference<T extends AggregateRoot<T, ID>, ID extends Identifier>
 			implements AssociationAggregateReference<T, ID> {
 
-		private AggregateReference<T, ID> delegate;
+		private final AggregateReference<T, ID> delegate;
 
 		ResolvingAssociationAggregateReference(AggregateReference<T, ID> delegate) {
 			this.delegate = delegate;
@@ -156,7 +156,7 @@ class StringToAggregateReferenceConverter implements GenericConverter {
 
 		@Override
 		public AssociationAggregateReference<T, ID> withIdSource(Function<UriComponents, Object> extractor) {
-			return new ResolvingAssociationAggregateReference<T, ID>(delegate.withIdSource(extractor));
+			return new ResolvingAssociationAggregateReference<>(delegate.withIdSource(extractor));
 		}
 	}
 }

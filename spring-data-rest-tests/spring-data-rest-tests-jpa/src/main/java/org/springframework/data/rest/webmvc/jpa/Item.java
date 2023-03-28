@@ -32,7 +32,8 @@ public class Item {
 	private @Id @GeneratedValue Long id;
 	private String name;
 	private @JsonIgnore @OneToOne User owner;
-	private @OneToOne User manager, curator;
+	private  @OneToOne User manager;
+	private  @OneToOne User curator;
 
 	public Long getId() {
 		return id;

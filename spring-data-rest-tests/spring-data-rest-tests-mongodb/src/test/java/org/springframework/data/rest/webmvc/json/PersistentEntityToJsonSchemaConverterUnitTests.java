@@ -103,7 +103,7 @@ class PersistentEntityToJsonSchemaConverterUnitTests {
 	@Test // DATAREST-631, DATAREST-632
 	void fulfillsConstraintsForProfile() {
 
-		List<Constraint> constraints = new ArrayList<Constraint>();
+		List<Constraint> constraints = new ArrayList<>();
 		constraints.add(new Constraint("$.properties.id", is(notNullValue()), "Has descriptor for id property"));
 		constraints.add(new Constraint("$.description", is("Profile description"), "Adds description to schema root"));
 		constraints.add(new Constraint("$.properties.renamed", is(notNullValue()), "Has descriptor for renamed property"));
@@ -116,7 +116,7 @@ class PersistentEntityToJsonSchemaConverterUnitTests {
 	@Test // DATAREST-632
 	void fulfillsConstraintsForUser() throws Exception {
 
-		List<Constraint> constraints = new ArrayList<Constraint>();
+		List<Constraint> constraints = new ArrayList<>();
 		constraints.add(new Constraint("$.properties.id", is(nullValue()), "Does NOT have descriptor for id property"));
 		constraints.add(new Constraint("$.properties.firstname.type", is("string"), "Exposes firstname as String"));
 		constraints
@@ -166,7 +166,7 @@ class PersistentEntityToJsonSchemaConverterUnitTests {
 	@Test // DATAREST-754
 	void handlesGroovyDomainObjects() {
 
-		List<Constraint> constraints = new ArrayList<Constraint>();
+		List<Constraint> constraints = new ArrayList<>();
 		constraints.add(new Constraint("$.properties.name", is(notNullValue()), "Has descriptor for name property"));
 
 		assertConstraints(SimulatedGroovyDomainClass.class, constraints);

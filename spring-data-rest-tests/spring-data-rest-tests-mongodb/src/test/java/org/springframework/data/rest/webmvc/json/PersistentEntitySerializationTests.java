@@ -124,7 +124,7 @@ class PersistentEntitySerializationTests {
 	void createsNestedResourceForMap() throws Exception {
 
 		User dave = users.save(new User());
-		dave.colleaguesMap = new HashMap<String, Nested>();
+		dave.colleaguesMap = new HashMap<>();
 		dave.colleaguesMap.put("carter", new Nested(users.save(new User())));
 
 		PersistentEntityResource resource = PersistentEntityResource

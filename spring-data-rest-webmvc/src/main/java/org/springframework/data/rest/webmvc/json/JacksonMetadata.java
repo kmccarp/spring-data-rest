@@ -168,7 +168,7 @@ public class JacksonMetadata implements Iterable<BeanPropertyDefinition> {
 
 			return provider.findValueSerializer(type);
 
-		} catch (JsonMappingException o_O) {
+		} catch (JsonMappingException oO) {
 			return null;
 		}
 	}

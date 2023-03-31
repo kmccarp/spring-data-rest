@@ -38,7 +38,7 @@ public class BookIdConverter implements BackendIdConverter {
 	public String toRequestId(Serializable id, Class<?> entityType) {
 
 		Long longId = (Long) id;
-		List<Long> ids = new ArrayList<Long>(longId.intValue());
+		List<Long> ids = new ArrayList<>(longId.intValue());
 
 		for (int i = 0; i < longId; i++) {
 			ids.add(longId);

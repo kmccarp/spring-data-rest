@@ -66,11 +66,11 @@ public class RepositoryRestExceptionHandler {
 	/**
 	 * Handles {@link ResourceNotFoundException} by returning {@code 404 Not Found}.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler
-	ResponseEntity<?> handleNotFound(ResourceNotFoundException o_O) {
+	ResponseEntity<?> handleNotFound(ResourceNotFoundException oO) {
 		return notFound(new HttpHeaders());
 	}
 
@@ -185,6 +185,6 @@ public class RepositoryRestExceptionHandler {
 		Assert.notNull(headers, "Headers must not be null");
 		Assert.notNull(status, "HttpStatus must not be null");
 
-		return new ResponseEntity<T>(body, headers, status);
+		return new ResponseEntity<>(body, headers, status);
 	}
 }

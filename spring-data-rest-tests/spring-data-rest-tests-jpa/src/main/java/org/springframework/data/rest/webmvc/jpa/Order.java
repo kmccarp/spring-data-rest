@@ -40,7 +40,7 @@ public class Order {
 	@ManyToOne(fetch = FetchType.LAZY) //
 	private Person creator;
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //
-	private List<LineItem> lineItems = new ArrayList<LineItem>();
+	private List<LineItem> lineItems = new ArrayList<>();
 	private Type type = Type.TAKE_AWAY;
 
 	public Order(Person creator) {

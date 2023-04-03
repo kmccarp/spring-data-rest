@@ -75,7 +75,8 @@ class RepositoryRestHandlerMappingUnitTests {
 	RepositoryRestConfiguration configuration;
 	Supplier<HandlerMappingStub> handlerMapping;
 	MockHttpServletRequest mockRequest;
-	Method listEntitiesMethod, rootHandlerMethod;
+	Method listEntitiesMethod;
+	Method rootHandlerMethod;
 
 	@BeforeEach
 	void setUp() throws Exception {

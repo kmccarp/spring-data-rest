@@ -127,7 +127,7 @@ class JsonPatchHandlerUnitTests {
 		User christoph = new User();
 		christoph.firstname = "Christoph";
 
-		this.user.colleagues = new ArrayList<User>(Arrays.asList(thomas, christoph));
+		this.user.colleagues = new ArrayList<>(Arrays.asList(thomas, christoph));
 
 		String input = "[{ \"op\": \"remove\", \"path\": \"/colleagues/0\" }]";
 
@@ -181,7 +181,9 @@ class JsonPatchHandlerUnitTests {
 	@Data
 	static class WithIgnoredProperties {
 
-		String name, lastname, password;
+		String name;
+		String lastname;
+		String password;
 
 		@JsonIgnore String ssn;
 

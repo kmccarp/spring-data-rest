@@ -115,7 +115,7 @@ public abstract class AbstractControllerIntegrationTests {
 		return mappings.getMetadataFor(domainType);
 	}
 
-	private static enum StubProjector implements Projector {
+	private enum StubProjector implements Projector {
 
 		INSTANCE;
 

@@ -32,7 +32,7 @@ import org.springframework.web.util.UriTemplate;
  *
  * @author Oliver Gierke
  */
-public class ResourceTester {
+public final class ResourceTester {
 
 	private final RepresentationModel resource;
 

@@ -269,7 +269,7 @@ class RepositorySearchController {
 		var headers = new HttpHeaders();
 		headers.setAllow(Collections.singleton(HttpMethod.GET));
 
-		return new ResponseEntity<Object>(headers, HttpStatus.OK);
+		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
 
 	/**
@@ -284,7 +284,7 @@ class RepositorySearchController {
 	public ResponseEntity<Object> headForSearch(RootResourceInformation information, @PathVariable String search) {
 
 		checkExecutability(information, search);
-		return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	/**
@@ -374,7 +374,7 @@ class RepositorySearchController {
 
 			try {
 				result.add(new URI(element.toString()));
-			} catch (URISyntaxException o_O) {
+			} catch (URISyntaxException oO) {
 				result.add(element);
 			}
 		}

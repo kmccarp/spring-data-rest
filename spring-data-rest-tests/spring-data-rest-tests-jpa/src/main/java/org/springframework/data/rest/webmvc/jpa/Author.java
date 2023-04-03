@@ -34,7 +34,7 @@ public class Author {
 	public String name;
 
 	@ManyToMany(mappedBy = "authors") //
-	public Set<Book> books = new HashSet<Book>();
+	public Set<Book> books = new HashSet<>();
 
 	protected Author() {}
 

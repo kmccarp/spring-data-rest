@@ -95,8 +95,8 @@ public class DomainObjectReader {
 
 		try {
 			return doMerge((ObjectNode) mapper.readTree(source), target, mapper);
-		} catch (Exception o_O) {
-			throw new HttpMessageNotReadableException("Could not read payload", o_O, InputStreamHttpInputMessage.of(source));
+		} catch (Exception oO) {
+			throw new HttpMessageNotReadableException("Could not read payload", oO, InputStreamHttpInputMessage.of(source));
 		}
 	}
 

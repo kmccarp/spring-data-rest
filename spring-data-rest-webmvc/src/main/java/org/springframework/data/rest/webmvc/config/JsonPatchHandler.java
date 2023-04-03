@@ -114,9 +114,9 @@ class JsonPatchHandler {
 
 		try {
 			return new JsonPatchPatchConverter(mapper, context).convert(mapper.readTree(source));
-		} catch (Exception o_O) {
+		} catch (Exception oO) {
 			throw new HttpMessageNotReadableException(
-					String.format("Could not read PATCH operations; Expected %s", RestMediaTypes.JSON_PATCH_JSON), o_O,
+					String.format("Could not read PATCH operations; Expected %s", RestMediaTypes.JSON_PATCH_JSON), oO,
 					InputStreamHttpInputMessage.of(source));
 		}
 	}

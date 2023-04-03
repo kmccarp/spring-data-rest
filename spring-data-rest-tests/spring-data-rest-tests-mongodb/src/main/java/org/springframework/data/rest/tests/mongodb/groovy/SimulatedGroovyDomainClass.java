@@ -29,7 +29,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class SimulatedGroovyDomainClass implements GroovyObject {
 
-	private String id, name;
+	private String id;
+	private String name;
 
 	public String getId() {
 		return id;

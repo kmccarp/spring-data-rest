@@ -30,11 +30,12 @@ import org.springframework.data.annotation.Id;
 public class Customer {
 
 	private final @Id UUID id = UUID.randomUUID();
-	private final String firstname, lastname;
+	private final String firstname;
+	private final String lastname;
 	private final Gender gender;
 	private final Address address;
 
-	static enum Gender {
-		MALE, FEMALE;
+	enum Gender {
+		MALE, FEMALE
 	}
 }

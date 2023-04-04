@@ -15,21 +15,13 @@
  */
 package org.springframework.data.rest.webmvc;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.data.rest.tests.TestMvcClient.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doAnswer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.rest.core.mapping.ResourceMetadata;
 import org.springframework.data.rest.tests.AbstractControllerIntegrationTests;
 import org.springframework.data.rest.tests.ResourceTester;
 import org.springframework.data.rest.tests.ResourceTester.HasSelfLink;
@@ -40,18 +32,7 @@ import org.springframework.data.rest.webmvc.jpa.CreditCard;
 import org.springframework.data.rest.webmvc.jpa.JpaRepositoryConfig;
 import org.springframework.data.rest.webmvc.jpa.Person;
 import org.springframework.data.rest.webmvc.jpa.TestDataPopulator;
-import org.springframework.data.rest.webmvc.support.DefaultedPageable;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.PagedModel;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -117,18 +98,14 @@ class RepositorySearchControllerIntegrationTests extends AbstractControllerInteg
 	void executesSearchAgainstRepository() {
 
 		RootResourceInformation resourceInformation = getResourceInformation(Person.class);
-		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>(1);
+		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>(1);
 		parameters.add("firstname", "John");
 
-		doAnswer(new Answer<CollectionModel<?>>() {
+		doAnswer(invocation -> {
 
-			@Override
-			public CollectionModel<?> answer(InvocationOnMock invocation) throws Throwable {
+			var page = (Page<Object>) invocation.getArgument(0);
 
-				var page = (Page<Object>) invocation.getArgument(0);
-
-				return pagedResourcesAssembler.toModel(page, entityResourceAssembler);
-			}
+			return pagedResourcesAssembler.toModel(page, entityResourceAssembler);
 		}).when(assembler).toCollectionModel(any(), any());
 
 		ResponseEntity<?> response = controller.executeSearch(resourceInformation, parameters, "firstname", PAGEABLE,
@@ -203,13 +180,7 @@ class RepositorySearchControllerIntegrationTests extends AbstractControllerInteg
 		var resourceInformation = getResourceInformation(Book.class);
 
 		when(assembler.toCollectionModel(any(), any()))
-				.thenAnswer(new Answer<CollectionModel<?>>() {
-
-					@Override
-					public CollectionModel<?> answer(InvocationOnMock invocation) throws Throwable {
-						return CollectionModel.of(invocation.getArgument(0));
-					}
-				});
+				.thenAnswer(invocation -> CollectionModel.of(invocation.getArgument(0)));
 
 		var result = controller.executeSearch(resourceInformation, parameters, "findByAuthorsContains", PAGEABLE,
 				Sort.unsorted(), new HttpHeaders(), assembler);
@@ -228,7 +199,7 @@ class RepositorySearchControllerIntegrationTests extends AbstractControllerInteg
 	@Test // DATAREST-1121
 	void returnsSimpleResponseEntityForQueryMethod() {
 
-		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
+		MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
 		parameters.add("lastname", "Thornton");
 
 		ResponseEntity<?> entity = controller.executeSearch(getResourceInformation(Person.class), parameters,

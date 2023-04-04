@@ -52,12 +52,12 @@ class ExceptionHandlingCustomizationIntegrationTests extends AbstractWebIntegrat
 		static class CustomGlobalConfiguration {
 
 			@ExceptionHandler
-			ResponseEntity<Void> handle(HttpRequestMethodNotSupportedException o_O) {
+			ResponseEntity<Void> handle(HttpRequestMethodNotSupportedException oO) {
 
 				HttpHeaders headers = new HttpHeaders();
-				headers.setAllow(o_O.getSupportedHttpMethods());
+				headers.setAllow(oO.getSupportedHttpMethods());
 
-				return new ResponseEntity<Void>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<>(headers, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 	}

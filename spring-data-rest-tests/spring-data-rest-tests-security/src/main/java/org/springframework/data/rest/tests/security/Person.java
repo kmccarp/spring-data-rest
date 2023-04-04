@@ -28,5 +28,6 @@ import org.springframework.data.annotation.Id;
 public class Person {
 
 	@Id UUID id = UUID.randomUUID();
-	String firstname, lastname;
+	String firstname;
+	String lastname;
 }

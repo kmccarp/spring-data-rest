@@ -76,10 +76,10 @@ class JpaDefaultPageableWebTests extends AbstractWebIntegrationTests {
 		Page<Book> getDefaultPageable(Pageable pageable) {
 
 			if (pageable != null) {
-				return new PageImpl<Book>(Collections.singletonList(new Book()), pageable, 1);
+				return new PageImpl<>(Collections.singletonList(new Book()), pageable, 1);
 			}
 
-			return new PageImpl<Book>(Collections.emptyList(), pageable, 0);
+			return new PageImpl<>(Collections.emptyList(), pageable, 0);
 		}
 	}
 

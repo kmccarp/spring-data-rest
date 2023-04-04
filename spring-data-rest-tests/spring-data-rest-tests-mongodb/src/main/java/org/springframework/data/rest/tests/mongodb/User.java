@@ -36,12 +36,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @Document
 public class User {
 
-	public static enum Gender {
-		MALE, FEMALE;
+	public enum Gender {
+		MALE, FEMALE
 	}
 
 	public BigInteger id;
-	public String firstname, lastname;
+	public String firstname;
+	public String lastname;
 	public Address address;
 	public Set<Address> shippingAddresses;
 	public List<String> nicknames;
@@ -52,7 +53,7 @@ public class User {
 	public @DBRef(lazy = true) List<User> colleagues;
 	public @DBRef(lazy = true) User manager;
 	public @DBRef(lazy = true) Map<String, User> map;
-	public Map<String, Nested> colleaguesMap = new HashMap<String, Nested>();
+	public Map<String, Nested> colleaguesMap = new HashMap<>();
 
 	public static class EmailAddress {
 

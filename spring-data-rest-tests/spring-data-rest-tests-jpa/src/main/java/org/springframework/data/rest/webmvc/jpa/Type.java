@@ -20,5 +20,5 @@ package org.springframework.data.rest.webmvc.jpa;
  */
 public enum Type {
 
-	IN_STORE, TAKE_AWAY;
+	IN_STORE, TAKE_AWAY
 }

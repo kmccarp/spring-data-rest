@@ -39,7 +39,7 @@ public class Profile {
 	private @LastModifiedDate Date lastModifiedDate;
 	private @Version Long version;
 	private @JsonProperty("renamed") String aliased;
-	private Map<String, String> metadata = new HashMap<String, String>();
+	private Map<String, String> metadata = new HashMap<>();
 
 	public String getId() {
 		return id;

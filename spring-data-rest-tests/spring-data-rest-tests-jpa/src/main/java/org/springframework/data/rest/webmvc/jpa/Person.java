@@ -53,7 +53,7 @@ public class Person {
 
 	@Description("A person's siblings") //
 	@ManyToMany //
-	private List<Person> siblings = new ArrayList<Person>();
+	private List<Person> siblings = new ArrayList<>();
 
 	@ManyToOne //
 	private Person father;
@@ -64,7 +64,8 @@ public class Person {
 	@JsonIgnore //
 	private int age;
 
-	private int height, weight;
+	private int height;
+	private int weight;
 	private Gender gender;
 
 	public Person() {}
@@ -101,8 +102,8 @@ public class Person {
 
 	public Person addSibling(Person p) {
 
-		if (siblings == Collections.EMPTY_LIST) {
-			siblings = new ArrayList<Person>();
+		if (siblings == Collections.emptyList()) {
+			siblings = new ArrayList<>();
 		}
 
 		siblings.add(p);
@@ -168,7 +169,7 @@ public class Person {
 		this.gender = gender;
 	}
 
-	public static enum Gender {
-		MALE, FEMALE, UNDEFINED;
+	public enum Gender {
+		MALE, FEMALE, UNDEFINED
 	}
 }

@@ -74,7 +74,7 @@ public class PersistentEntityToJsonSchemaConverter implements ConditionalGeneric
 	private static final TypeDescriptor SCHEMA_TYPE = TypeDescriptor.valueOf(JsonSchema.class);
 	private static final TypeInformation<?> STRING_TYPE_INFORMATION = ClassTypeInformation.from(String.class);
 
-	private final Set<ConvertiblePair> convertiblePairs = new HashSet<ConvertiblePair>();
+	private final Set<ConvertiblePair> convertiblePairs = new HashSet<>();
 	private final Associations associations;
 	private final PersistentEntities entities;
 	private final ObjectMapper objectMapper;
@@ -286,7 +286,7 @@ public class PersistentEntityToJsonSchemaConverter implements ConditionalGeneric
 		public JsonSchemaPropertyRegistrar(JacksonMetadata metadata) {
 			Assert.notNull(metadata, "Metadata must not be null");
 			this.metadata = metadata;
-			this.properties = new ArrayList<AbstractJsonSchemaProperty<?>>();
+			this.properties = new ArrayList<>();
 		}
 
 		public void register(JsonSchemaProperty property, TypeInformation<?> type) {
@@ -329,7 +329,7 @@ public class PersistentEntityToJsonSchemaConverter implements ConditionalGeneric
 				@Override
 				public JsonSchemaProperty customize(JsonSchemaProperty property, TypeInformation<?> type) {
 
-					List<String> result = new ArrayList<String>();
+					List<String> result = new ArrayList<>();
 
 					for (Object element : factory.getInvokerFor(type.getType()).invokeFindAll((Sort) null)) {
 						result.add(element.toString());
@@ -433,7 +433,7 @@ public class PersistentEntityToJsonSchemaConverter implements ConditionalGeneric
 
 			boolean isSyntheticProperty = !property.isPresent();
 			boolean isNotWritable = property.map(it -> !it.isWritable()).orElse(false);
-			boolean isJacksonReadOnly = property.map(it -> metadata.isReadOnly(it)).orElse(false);
+			boolean isJacksonReadOnly = property.map(metadata::isReadOnly).orElse(false);
 
 			if (isSyntheticProperty || isNotWritable || isJacksonReadOnly) {
 				result = result.withReadOnly();
@@ -493,12 +493,12 @@ public class PersistentEntityToJsonSchemaConverter implements ConditionalGeneric
 
 			try {
 				return resolver.resolve(resolvable);
-			} catch (NoSuchMessageException o_O) {
+			} catch (NoSuchMessageException oO) {
 
 				if (configuration.getMetadataConfiguration().omitUnresolvableDescriptionKeys()) {
 					return null;
 				} else {
-					throw o_O;
+					throw oO;
 				}
 			}
 		}
@@ -512,7 +512,7 @@ public class PersistentEntityToJsonSchemaConverter implements ConditionalGeneric
 	 * @since 2.4
 	 */
 	private static class DefaultingMessageSourceResolvable implements MessageSourceResolvable {
-		private static Pattern SPLIT_CAMEL_CASE = Pattern.compile("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
+		private static final Pattern SPLIT_CAMEL_CASE = Pattern.compile("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])");
 		private final MessageSourceResolvable delegate;
 
 		/**

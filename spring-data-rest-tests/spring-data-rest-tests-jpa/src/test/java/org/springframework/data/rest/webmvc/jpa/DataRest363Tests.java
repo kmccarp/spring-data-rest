@@ -52,7 +52,7 @@ import org.springframework.web.context.WebApplicationContext;
 		classes = { JpaRepositoryConfig.class, RepositoryRestMvcConfiguration.class, DataRest363Tests.Config.class })
 class DataRest363Tests {
 
-	private static MediaType MEDIA_TYPE = MediaType.APPLICATION_JSON;
+	private static MediaType mediaType = MediaType.APPLICATION_JSON;
 
 	@Autowired WebApplicationContext context;
 	@Autowired LinkDiscoverers discoverers;
@@ -67,13 +67,13 @@ class DataRest363Tests {
 
 		@Bean
 		LinkDiscoverer classicLinkDiscover() {
-			return new JsonPathLinkDiscoverer("$.links[?(@.rel == '%s')].href", MEDIA_TYPE);
+			return new JsonPathLinkDiscoverer("$.links[?(@.rel == '%s')].href", mediaType);
 		}
 
 		@Bean
 		RepositoryRestConfigurer configurer() {
 			return RepositoryRestConfigurer.withConfig( //
-					it -> it.setDefaultMediaType(MEDIA_TYPE).useHalAsDefaultJsonMediaType(false));
+					it -> it.setDefaultMediaType(mediaType).useHalAsDefaultJsonMediaType(false));
 		}
 	}
 

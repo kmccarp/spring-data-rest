@@ -30,7 +30,10 @@ import org.springframework.data.annotation.Id;
 public class Address {
 
 	private @Id UUID id = UUID.randomUUID();
-	private final String street, zipCode, city, state;
+	private final String street;
+	private final String zipCode;
+	private final String city;
+	private final String state;
 
 	public String toString() {
 		return String.format("%s, %s %s, %s", street, zipCode, city, state);

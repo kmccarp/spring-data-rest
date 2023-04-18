@@ -63,7 +63,9 @@ class ResourceStringUtilsTests {
 	@Value(staticConstructor = "of")
 	static class Fixture {
 
-		String name, actual, expected;
+		String name;
+		String actual;
+		String expected;
 		boolean hasText;
 	}
 }

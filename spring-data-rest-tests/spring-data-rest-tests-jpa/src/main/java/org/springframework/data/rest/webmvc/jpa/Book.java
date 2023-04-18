@@ -40,7 +40,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Book {
 
 	public @Id @GeneratedValue Long id;
-	public String isbn, title;
+	public String isbn;
+	public String title;
 
 	@JsonProperty("sales") public long soldUnits;
 
@@ -58,7 +59,7 @@ public class Book {
 		this.title = title;
 		this.soldUnits = soldUnits;
 
-		this.authors = new HashSet<Author>();
+		this.authors = new HashSet<>();
 
 		for (Author author : authors) {
 			author.books.add(this);

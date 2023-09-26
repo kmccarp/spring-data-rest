@@ -163,7 +163,7 @@ class DomainObjectReaderUnitTests {
 		JsonNode node = mapper.readTree("{\"map\" : {\"a\": \"1\", \"b\": {\"c\": \"2\"}}}");
 
 		TypeWithGenericMap target = new TypeWithGenericMap();
-		target.map = new HashMap<String, Object>();
+		target.map = new HashMap<>();
 		target.map.put("b", new HashMap<String, Object>());
 
 		TypeWithGenericMap result = reader.readPut((ObjectNode) node, target, mapper);
@@ -255,14 +255,14 @@ class DomainObjectReaderUnitTests {
 	@SuppressWarnings("unchecked")
 	void readsComplexNestedMapsAndArrays() throws Exception {
 
-		Map<String, Object> childMap = new HashMap<String, Object>();
+		Map<String, Object> childMap = new HashMap<>();
 		childMap.put("child1", "ok");
 
-		HashMap<String, Object> nestedMap = new HashMap<String, Object>();
+		HashMap<String, Object> nestedMap = new HashMap<>();
 		nestedMap.put("c1", "v1");
 
 		TypeWithGenericMap map = new TypeWithGenericMap();
-		map.map = new HashMap<String, Object>();
+		map.map = new HashMap<>();
 		map.map.put("sub1", "ok");
 		map.map.put("sub2", new ArrayList<String>(Arrays.asList("ok1", "ok2")));
 		map.map.put("sub3", new ArrayList<Object>(Arrays.asList(childMap)));
@@ -331,7 +331,7 @@ class DomainObjectReaderUnitTests {
 	void writesArrayForPut() throws Exception {
 
 		Child inner = new Child();
-		inner.items = new ArrayList<Item>();
+		inner.items = new ArrayList<>();
 		inner.items.add(new Item());
 
 		Parent source = new Parent();
@@ -348,7 +348,7 @@ class DomainObjectReaderUnitTests {
 	void writesArrayWithAddedItemForPut() throws Exception {
 
 		Child inner = new Child();
-		inner.items = new ArrayList<Item>();
+		inner.items = new ArrayList<>();
 		inner.items.add(new Item());
 
 		Parent source = new Parent();
@@ -369,7 +369,7 @@ class DomainObjectReaderUnitTests {
 	void writesArrayWithRemovedItemForPut() throws Exception {
 
 		Child inner = new Child();
-		inner.items = new ArrayList<Item>();
+		inner.items = new ArrayList<>();
 		inner.items.add(new Item("test1"));
 		inner.items.add(new Item("test2"));
 		inner.items.add(new Item("test3"));
@@ -426,7 +426,7 @@ class DomainObjectReaderUnitTests {
 	void writesObjectWithRemovedItemsForPut() throws Exception {
 
 		Child inner = new Child();
-		inner.items = new ArrayList<Item>();
+		inner.items = new ArrayList<>();
 		inner.items.add(new Item("test1"));
 		inner.items.add(new Item("test2"));
 
@@ -512,7 +512,7 @@ class DomainObjectReaderUnitTests {
 	@Test // DATAREST-944
 	void mergesAssociationsAndKeepsMutableCollection() {
 
-		ArrayList<Nested> originalCollection = new ArrayList<Nested>(Arrays.asList(new Nested(2, 3)));
+		ArrayList<Nested> originalCollection = new ArrayList<>(Arrays.asList(new Nested(2, 3)));
 		SampleWithReference source = new SampleWithReference(
 				new ArrayList<Nested>(Arrays.asList(new Nested(1, 2), new Nested(2, 3))));
 		SampleWithReference target = new SampleWithReference(originalCollection);
@@ -711,7 +711,8 @@ class DomainObjectReaderUnitTests {
 	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 	static class Person {
 
-		String firstName, lastName;
+		String firstName;
+		String lastName;
 
 		public Person(String firstName, String lastName) {
 			this.firstName = firstName;
@@ -733,7 +734,8 @@ class DomainObjectReaderUnitTests {
 		@Id Long id;
 		@Version Long version;
 
-		String firstname, lastname;
+		String firstname;
+		String lastname;
 	}
 
 	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
@@ -746,7 +748,7 @@ class DomainObjectReaderUnitTests {
 
 	static class User {
 
-		public List<Phone> phones = new ArrayList<Phone>();
+		public List<Phone> phones = new ArrayList<>();
 	}
 
 	static class Phone {
@@ -803,7 +805,7 @@ class DomainObjectReaderUnitTests {
 
 	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 	static class Product {
-		Map<Locale, LocalizedValue> map = new HashMap<Locale, LocalizedValue>();
+		Map<Locale, LocalizedValue> map = new HashMap<>();
 	}
 
 	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
@@ -817,18 +819,19 @@ class DomainObjectReaderUnitTests {
 		public LocalizedValue() {}
 
 		public boolean equals(final Object o) {
-			if (o == this)
+			if (o == this) {
 				return true;
-			if (!(o instanceof LocalizedValue))
+			}
+			if (!(o instanceof LocalizedValue)) {
 				return false;
+			}
 			final LocalizedValue other = (LocalizedValue) o;
-			if (!other.canEqual((Object) this))
+			if (!other.canEqual((Object) this)) {
 				return false;
+			}
 			final Object this$value = this.value;
 			final Object other$value = other.value;
-			if (this$value == null ? other$value != null : !this$value.equals(other$value))
-				return false;
-			return true;
+			return !(this$value == null ? other$value != null : !this$value.equals(other$value));
 		}
 
 		protected boolean canEqual(final Object other) {
@@ -876,12 +879,12 @@ class DomainObjectReaderUnitTests {
 			public String getFoo() {
 				return "second";
 			}
-		};
+		}
 	}
 
 	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 	static class CollectionOfEnumWithMethods {
-		List<SampleEnum> enums = new ArrayList<SampleEnum>();
+		List<SampleEnum> enums = new ArrayList<>();
 	}
 
 	static class SampleWithReference {
@@ -897,10 +900,12 @@ class DomainObjectReaderUnitTests {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o)
+			if (this == o) {
 				return true;
-			if (o == null || getClass() != o.getClass())
+			}
+			if (o == null || getClass() != o.getClass()) {
 				return false;
+			}
 
 			SampleWithReference that = (SampleWithReference) o;
 
@@ -915,7 +920,8 @@ class DomainObjectReaderUnitTests {
 
 	@Immutable
 	static final class Nested {
-		private final int x, y;
+		private final int x;
+		private final int y;
 
 		public Nested(int x, int y) {
 			this.x = x;
@@ -936,7 +942,7 @@ class DomainObjectReaderUnitTests {
 	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 	static class Note {
 		@Id UUID id = UUID.randomUUID();
-		@Reference List<Tag> tags = new ArrayList<Tag>();
+		@Reference List<Tag> tags = new ArrayList<>();
 	}
 
 	@JsonAutoDetect(fieldVisibility = Visibility.ANY)
@@ -960,7 +966,7 @@ class DomainObjectReaderUnitTests {
 
 			return values.entrySet().stream()//
 					.filter(it -> it.getKey().toString().equals(text))//
-					.map(it -> it.getValue())//
+					.map(java.util.Map.Entry::getValue)//
 					.findFirst().orElse(null);
 		}
 	}

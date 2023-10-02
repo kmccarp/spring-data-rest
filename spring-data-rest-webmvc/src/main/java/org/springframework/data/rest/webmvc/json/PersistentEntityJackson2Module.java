@@ -151,7 +151,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 	 * @author Oliver Gierke
 	 */
 	@SuppressWarnings("serial")
-	private static class PersistentEntityResourceSerializer extends StdSerializer<PersistentEntityResource> {
+	private static final class PersistentEntityResourceSerializer extends StdSerializer<PersistentEntityResource> {
 
 		private final LinkCollector collector;
 
@@ -191,7 +191,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 			}
 
 			@SuppressWarnings("deprecation")
-			EntityModel<Object> resourceToRender = new EntityModel<Object>(resource.getContent(), links) {
+			EntityModel<Object> resourceToRender = new EntityModel<>(resource.getContent(), links) {
 
 				@JsonUnwrapped
 				public Iterable<?> getEmbedded() {
@@ -352,7 +352,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 			if (value instanceof Collection) {
 
 				Collection<?> source = (Collection<?>) value;
-				List<Object> resources = new ArrayList<Object>();
+				List<Object> resources = new ArrayList<>();
 
 				for (Object element : source) {
 					resources.add(toModel(element, provider));
@@ -633,7 +633,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 	}
 
 	@SuppressWarnings("serial")
-	static class ProjectionSerializer extends StdSerializer<TargetAware> {
+	static final class ProjectionSerializer extends StdSerializer<TargetAware> {
 
 		private final LinkCollector collector;
 		private final Associations associations;
@@ -812,7 +812,7 @@ public class PersistentEntityJackson2Module extends SimpleModule {
 		}
 	}
 
-	private static class RepositoryInvokingDeserializer extends StdScalarDeserializer<Object> {
+	private static final class RepositoryInvokingDeserializer extends StdScalarDeserializer<Object> {
 
 		private static final long serialVersionUID = -3033458643050330913L;
 		private final RepositoryInvoker invoker;

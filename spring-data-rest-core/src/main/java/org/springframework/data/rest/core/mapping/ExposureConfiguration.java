@@ -135,11 +135,10 @@ public class ExposureConfiguration implements ExposureConfigurer {
 
 	HttpMethods filter(ConfigurableHttpMethods methods, ResourceType type, ResourceMetadata metadata) {
 
-		switch (type) {
-			case COLLECTION:
-				return collection.filter(metadata, methods);
-			case ITEM:
-				return item.filter(metadata, methods);
+		if (type == org.springframework.data.rest.core.mapping.ResourceType.COLLECTION) {
+			return collection.filter(metadata, methods);
+		} else if (type == org.springframework.data.rest.core.mapping.ResourceType.ITEM) {
+			return item.filter(metadata, methods);
 		}
 
 		throw new IllegalArgumentException();

@@ -66,75 +66,75 @@ public class RepositoryRestExceptionHandler {
 	/**
 	 * Handles {@link ResourceNotFoundException} by returning {@code 404 Not Found}.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler
-	ResponseEntity<?> handleNotFound(ResourceNotFoundException o_O) {
+	ResponseEntity<?> handleNotFound(ResourceNotFoundException oO) {
 		return notFound(new HttpHeaders());
 	}
 
 	/**
 	 * Handles {@link HttpMessageNotReadableException} by returning {@code 400 Bad Request}.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler
-	ResponseEntity<ExceptionMessage> handleNotReadable(HttpMessageNotReadableException o_O) {
-		return badRequest(new HttpHeaders(), o_O);
+	ResponseEntity<ExceptionMessage> handleNotReadable(HttpMessageNotReadableException oO) {
+		return badRequest(new HttpHeaders(), oO);
 	}
 
 	/**
 	 * Handle failures commonly thrown from code tries to read incoming data and convert or cast it to the right type by
 	 * returning {@code 500 Internal Server Error} and the thrown exception marshalled into JSON.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler({ InvocationTargetException.class, IllegalArgumentException.class, ClassCastException.class,
 			ConversionFailedException.class, NullPointerException.class })
-	ResponseEntity<ExceptionMessage> handleMiscFailures(Exception o_O) {
+	ResponseEntity<ExceptionMessage> handleMiscFailures(Exception oO) {
 
-		return errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, new HttpHeaders(), o_O);
+		return errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, new HttpHeaders(), oO);
 	}
 
 	/**
 	 * Handles {@link RepositoryConstraintViolationException}s by returning {@code 400 Bad Request}.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler
 	ResponseEntity<RepositoryConstraintViolationExceptionMessage> handleRepositoryConstraintViolationException(
-			RepositoryConstraintViolationException o_O) {
-		return response(HttpStatus.BAD_REQUEST, new HttpHeaders(), new RepositoryConstraintViolationExceptionMessage(o_O,
+			RepositoryConstraintViolationException oO) {
+		return response(HttpStatus.BAD_REQUEST, new HttpHeaders(), new RepositoryConstraintViolationExceptionMessage(oO,
 				messageSourceAccessor));
 	}
 
 	/**
 	 * Send a {@code 409 Conflict} in case of concurrent modification.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler({ OptimisticLockingFailureException.class, DataIntegrityViolationException.class })
-	ResponseEntity<ExceptionMessage> handleConflict(Exception o_O) {
-		return errorResponse(HttpStatus.CONFLICT, new HttpHeaders(), o_O);
+	ResponseEntity<ExceptionMessage> handleConflict(Exception oO) {
+		return errorResponse(HttpStatus.CONFLICT, new HttpHeaders(), oO);
 	}
 
 	/**
 	 * Send {@code 405 Method Not Allowed} and include the supported {@link org.springframework.http.HttpMethod}s in the
 	 * {@code Allow} header.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler
-	ResponseEntity<Void> handle(HttpRequestMethodNotSupportedException o_O) {
+	ResponseEntity<Void> handle(HttpRequestMethodNotSupportedException oO) {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setAllow(o_O.getSupportedHttpMethods());
+		headers.setAllow(oO.getSupportedHttpMethods());
 
 		return response(HttpStatus.METHOD_NOT_ALLOWED, headers);
 	}
@@ -142,13 +142,13 @@ public class RepositoryRestExceptionHandler {
 	/**
 	 * Handles {@link ETagDoesntMatchException} by returning {@code 412 Precondition Failed}.
 	 *
-	 * @param o_O the exception to handle.
+	 * @param oO the exception to handle.
 	 * @return
 	 */
 	@ExceptionHandler
-	ResponseEntity<Void> handle(ETagDoesntMatchException o_O) {
+	ResponseEntity<Void> handle(ETagDoesntMatchException oO) {
 
-		HttpHeaders headers = o_O.getExpectedETag().addTo(new HttpHeaders());
+		HttpHeaders headers = oO.getExpectedETag().addTo(new HttpHeaders());
 		return response(HttpStatus.PRECONDITION_FAILED, headers);
 	}
 
@@ -185,6 +185,6 @@ public class RepositoryRestExceptionHandler {
 		Assert.notNull(headers, "Headers must not be null");
 		Assert.notNull(status, "HttpStatus must not be null");
 
-		return new ResponseEntity<T>(body, headers, status);
+		return new ResponseEntity<>(body, headers, status);
 	}
 }
